@@ -50,7 +50,22 @@ void Stack::operator<<(double a)
 
 double Stack::operator>>(double a)
 {
-	return this->Pop(a);
+	double value = 0;
+	if (this->SHead == NULL) return 0;
+	Stack temp;
+	while (this->SHead != NULL)
+	{
+		value = this->Pop(this->SHead->Val);
+		if (value != a)
+			temp << value;
+	}
+
+
+	while (temp.SHead != NULL)
+	{
+		this->Push(temp.Pop(temp.SHead->Val));
+	}
+	return 1;
 }
 
 Stack& Stack::operator-=(double a)
@@ -79,12 +94,11 @@ Stack& Stack::operator-=(double a)
 
 void Stack::operator=(Stack & b)
 {
-	SELEMENT *temp = new SELEMENT;
-	this->SHead = temp;
-	do
+	this->SHead = NULL;
+	while (b.SHead != NULL)
 	{
 		this->Push(b.Pop(b.SHead->Val));
-	} while (b.SHead != NULL);
+	}
 }
 
 Stack::Stack()
